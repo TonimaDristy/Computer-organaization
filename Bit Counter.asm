@@ -4,30 +4,27 @@ org 100h
 .stack 100h
 
 .data
-    val   db 11010101b
-    zeros db 0
+    num db 10101110b
+    count db 0
 
 .code
 main proc
-    mov ax, @data
-    mov ds, ax
+    mov ax,@data
+    mov ds,ax
 
-    mov al, val
-    mov cl, 8
-    xor bl, bl
+    mov al,num
+    mov cl,8
+    xor bl,bl
 
-count_zero:
-    shr al,1
-    jnc add_zero
-    jmp skip
-
-add_zero:
+check:
+    ror al,1
+    jc next
     inc bl
 
-skip:
-    loop count_zero
+next:
+    loop check
 
-    mov zeros, bl
+    mov count,bl
 
     mov ah,4Ch
     int 21h
