@@ -4,8 +4,8 @@ org 100h
 .stack 100h
 
 .data
-    num db 11010010b
-    rev db 0
+    num db 25
+    result db 0
 
 .code
 main proc
@@ -13,17 +13,19 @@ main proc
     mov ds,ax
 
     mov al,num
-    mov cl,8
-    xor bl,bl
+    and al,1
 
-reverse:
-    shl bl,1
-    shr al,1
-    adc bl,0
-    loop reverse
+    cmp al,0
+    jne odd
 
-    mov rev,bl
+even:
+    mov result,0
+    jmp finish
 
+odd:
+    mov result,1
+
+finish:
     mov ah,4Ch
     int 21h
 main endp
