@@ -4,27 +4,28 @@ org 100h
 .stack 100h
 
 .data
-    num db 10101110b
-    count db 0
+    val db 10111001b
+    ones db 0
 
 .code
 main proc
     mov ax,@data
     mov ds,ax
 
-    mov al,num
+    mov al,val
     mov cl,8
     xor bl,bl
 
-check:
-    ror al,1
-    jc next
+check_bit:
+    test al,1
+    jz skip
     inc bl
 
-next:
-    loop check
+skip:
+    shr al,1
+    loop check_bit
 
-    mov count,bl
+    mov ones,bl
 
     mov ah,4Ch
     int 21h
