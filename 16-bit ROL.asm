@@ -1,15 +1,11 @@
-
-; You may customize this and other start-up templates; 
-; The location of this template is c:\emu8086\inc\0_com_template.txt
-
 org 100h
 
 .model small
 .stack 100h
 
 .data
-    high db 10101010b
-    low  db 11001100b
+    high db 10110011b
+    low  db 01010101b
 
 .code
 main proc
@@ -19,11 +15,11 @@ main proc
     mov ah, high
     mov al, low
 
-    mov cl, 3
+    mov cl, 4          ; rotate 4 times
 
-rotate16:
-    rol ax, 1
-    loop rotate16
+rotate_right:
+    ror ax, 1
+    loop rotate_right
 
     mov high, ah
     mov low, al
@@ -32,10 +28,3 @@ rotate16:
     int 21h
 main endp
 end main
-
-
-ret
-
-
-
-
