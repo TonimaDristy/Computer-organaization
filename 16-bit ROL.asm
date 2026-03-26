@@ -4,8 +4,8 @@ org 100h
 .stack 100h
 
 .data
-    high db 10110011b
-    low  db 01010101b
+    high db 00001111b
+    low  db 11110000b
 
 .code
 main proc
@@ -15,11 +15,11 @@ main proc
     mov ah, high
     mov al, low
 
-    mov cl, 4          ; rotate 4 times
+    mov cl, 2
 
-rotate_right:
-    ror ax, 1
-    loop rotate_right
+shift_left:
+    shl ax, 1
+    loop shift_left
 
     mov high, ah
     mov low, al
