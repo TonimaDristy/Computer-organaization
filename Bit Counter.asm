@@ -4,29 +4,34 @@ org 100h
 .stack 100h
 
 .data
-    num db 25
-    result db 0
+    num db 16
+    result db 0   ; 1 = power of 2
 
 .code
 main proc
-    mov ax,@data
-    mov ds,ax
+    mov ax, @data
+    mov ds, ax
 
-    mov al,num
-    and al,1
+    mov al, num
+    cmp al, 0
+    je not_power
 
-    cmp al,0
-    jne odd
+    mov bl, al
+    dec bl        ; bl = n - 1
+    and al, bl
 
-even:
-    mov result,0
+    cmp al, 0
+    jne not_power
+
+power:
+    mov result, 1
     jmp finish
 
-odd:
-    mov result,1
+not_power:
+    mov result, 0
 
 finish:
-    mov ah,4Ch
+    mov ah, 4Ch
     int 21h
 main endp
 end main
