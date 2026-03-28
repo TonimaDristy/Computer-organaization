@@ -4,8 +4,8 @@ org 100h
 .stack 100h
 
 .data
-    num db 11010010b
-    rev db 0
+    num db 10101100b
+    zeros db 0
 
 .code
 main proc
@@ -16,16 +16,15 @@ main proc
     mov cl, 8
     xor bl, bl
 
-reverse_loop:
-    shl bl, 1       ; make space in result
-    shr al, 1       ; get LSB
-    jnc skip
+count_loop:
+    shl al, 1
+    jc skip
     inc bl
 
 skip:
-    loop reverse_loop
+    loop count_loop
 
-    mov rev, bl
+    mov zeros, bl
 
     mov ah, 4Ch
     int 21h
