@@ -4,8 +4,8 @@ org 100h
 .stack 100h
 
 .data
-    num db 16
-    result db 0   ; 1 = power of 2
+    num db 11010010b
+    rev db 0
 
 .code
 main proc
@@ -13,24 +13,20 @@ main proc
     mov ds, ax
 
     mov al, num
-    cmp al, 0
-    je not_power
+    mov cl, 8
+    xor bl, bl
 
-    mov bl, al
-    dec bl        ; bl = n - 1
-    and al, bl
+reverse_loop:
+    shl bl, 1       ; make space in result
+    shr al, 1       ; get LSB
+    jnc skip
+    inc bl
 
-    cmp al, 0
-    jne not_power
+skip:
+    loop reverse_loop
 
-power:
-    mov result, 1
-    jmp finish
+    mov rev, bl
 
-not_power:
-    mov result, 0
-
-finish:
     mov ah, 4Ch
     int 21h
 main endp
