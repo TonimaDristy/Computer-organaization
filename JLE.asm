@@ -1,34 +1,32 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-    A DB -5
-    B DB 2
-    C DB -1
+    NUM DB -3
 
-    msg DB "Largest number selected$"
+    negMsg DB "Negative (SF=1)$"
+    posMsg DB "Positive (SF=0)$"
 
 .CODE
 MAIN PROC
     MOV AX, @DATA
     MOV DS, AX
 
-    MOV AL, A
+    MOV AL, NUM
+    OR AL, 0       ; update flags without changing value
 
-    CMP AL, B
-    JGE CHECK_C
-    MOV AL, B
+    JS NEGATIVE    ; Jump if Sign Flag = 1
 
-CHECK_C:
-    CMP AL, C
-    JGE DONE
-    MOV AL, C
+    LEA DX, posMsg
+    MOV AH, 9
+    INT 21H
+    JMP EXIT
 
-DONE:
-    ; AL now holds largest value
-    LEA DX, msg
+NEGATIVE:
+    LEA DX, negMsg
     MOV AH, 9
     INT 21H
 
+EXIT:
     MOV AH, 4CH
     INT 21H
 END MAIN
