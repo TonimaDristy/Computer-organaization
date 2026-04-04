@@ -1,11 +1,11 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-    A DB 120
-    B DB 120
+    A DB -128
+    B DB -1
 
-    ofMsg DB "Overflow occurred$"
-    noMsg DB "No overflow$"
+    signedOF DB "Signed Overflow$"
+    carryMsg DB "Unsigned Carry$"
 
 .CODE
 MAIN PROC
@@ -15,15 +15,22 @@ MAIN PROC
     MOV AL, A
     ADD AL, B
 
-    JO OVERFLOW     ; Jump if Overflow Flag = 1
+    ; Check signed overflow
+    JO SIGNED_OVER
 
-    LEA DX, noMsg
+    ; Check unsigned carry
+    JC UNSIGNED_CARRY
+
+    JMP EXIT
+
+SIGNED_OVER:
+    LEA DX, signedOF
     MOV AH, 9
     INT 21H
     JMP EXIT
 
-OVERFLOW:
-    LEA DX, ofMsg
+UNSIGNED_CARRY:
+    LEA DX, carryMsg
     MOV AH, 9
     INT 21H
 
