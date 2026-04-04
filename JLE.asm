@@ -1,57 +1,33 @@
 .MODEL SMALL
 .STACK 100H
 .DATA
-    M DB -5
-    N DB 3
+    A DB 120
+    B DB 120
 
-    msg1 DB "M < N (signed)$"
-    msg2 DB "M > N (signed)$"
-    msg3 DB "M > N (unsigned)$"
-    msg4 DB "M < N (unsigned)$"
+    ofMsg DB "Overflow occurred$"
+    noMsg DB "No overflow$"
 
 .CODE
 MAIN PROC
     MOV AX, @DATA
     MOV DS, AX
 
-    ; ----- Signed -----
-    MOV AL, M
-    CMP AL, N
-    JL SIGN_LT
-    JG SIGN_GT
+    MOV AL, A
+    ADD AL, B
 
-SIGN_LT:
-    LEA DX, msg1
-    MOV AH, 9
-    INT 21H
-    JMP UNSIGNCMP
+    JO OVERFLOW     ; Jump if Overflow Flag = 1
 
-SIGN_GT:
-    LEA DX, msg2
-    MOV AH, 9
-    INT 21H
-
-UNSIGNCMP:
-    ; ----- Unsigned -----
-    MOV AL, M
-    CMP AL, N
-    JA UNS_GT
-    JB UNS_LT
-
-UNS_GT:
-    LEA DX, msg3
+    LEA DX, noMsg
     MOV AH, 9
     INT 21H
     JMP EXIT
 
-UNS_LT:
-    LEA DX, msg4
+OVERFLOW:
+    LEA DX, ofMsg
     MOV AH, 9
     INT 21H
 
 EXIT:
     MOV AH, 4CH
     INT 21H
-
 END MAIN
-
