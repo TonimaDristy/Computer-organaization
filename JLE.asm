@@ -1,12 +1,9 @@
 def main():
-    n = int(input("Enter a number: "))
-    total = 0
+    text = input("Enter text: ")
 
-    for i in range(1, n + 1):
-        if i % 2 == 0:
-            total += i
+    result = text.replace(" ", "")
 
-    print("Sum of even numbers:", total)
+    print("Without spaces:", result)
 
 if __name__ == "__main__":
     main()
