@@ -1,10 +1,12 @@
 def main():
-    numbers = list(map(int, input("Enter numbers separated by space: ").split()))
+    n = int(input("Enter a number: "))
+    total = 0
 
-    if numbers == sorted(numbers):
-        print("List is sorted")
-    else:
-        print("List is not sorted")
+    for i in range(1, n + 1):
+        if i % 2 == 0:
+            total += i
+
+    print("Sum of even numbers:", total)
 
 if __name__ == "__main__":
     main()
